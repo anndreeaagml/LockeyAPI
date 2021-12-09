@@ -10,7 +10,7 @@ namespace LockeyAPI
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        public int DeviceConnected { get; set; }
+        public string DeviceConnected { get; set; }
 
         public User(string username, string password, int deviceconnected)
         {
@@ -23,7 +23,7 @@ namespace LockeyAPI
         {
         }
 
-        public void SetUser(string user, string pass, int deviceconnected)
+        public void SetUser(string user, string pass, string deviceconnected)
         {
             Username = user;
             Password = pass;

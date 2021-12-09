@@ -10,7 +10,7 @@ namespace LockeyAPI
     public class DatabaseController
     {
         public const string connectionString =
-            @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Lockey;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            @"Server=tcp:lockeyserver.database.windows.net,1433;Initial Catalog=lockeydata;Persist Security Info=False;User ID=lockey;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public ObservableCollection<Sensor> GetAllSensors()
         {
@@ -26,7 +26,7 @@ namespace LockeyAPI
                     Sensor theSensor = new Sensor
                     {
                         ID = reader.GetInt32(0),
-                        Value = reader.GetFloat(5),
+                        Value = reader.GetFloat(2),
                     };
 
                     mylist.Add(theSensor);
@@ -36,7 +36,7 @@ namespace LockeyAPI
             }
         }
 
-        public Sensor GetSensorByID(string id)
+        public Sensor GetSensorByID(int id)
         {
             string query = "select * from Value where DeviceID=@id";
             Sensor returnSensor = new Sensor();
@@ -70,9 +70,9 @@ namespace LockeyAPI
             }
         }
 
-        public void deleteDevice(string id)
+        public void deleteDevice(int id)
         {
-            string query = "delete from Value where ID=@id"; //query here...
+            string query = "delete from Value where DeviceID=@id"; //query here...
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -96,8 +96,8 @@ namespace LockeyAPI
                 {
                     User theUser = new User()
                     {
-                        Username = reader.GetString(0),
-                        Password = reader.GetString(1)
+                        Username = reader.GetString(1),
+                        Password = reader.GetString(2)
                     };
                     mylist.Add(theUser);
                 }
@@ -148,13 +148,103 @@ namespace LockeyAPI
                 {
                     returnUser = new User()
                     {
-                        Username = reader.GetString(0),
-                        Password = reader.GetString(1),
+                        Username = reader.GetString(1),
+                        Password = reader.GetString(2),
                     };
                 }
 
                 return returnUser;
             }
         }
+        public ObservableCollection<int> GetDevice(string user)
+        {
+            string query = "select deviceconnection from [User] where username=@username";
+            ObservableCollection<int> mylist = new ObservableCollection<int>();
+            string devicesreturn;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@username", user);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    devicesreturn = reader.GetString(3);
+                    string[] strings;
+                    strings = devicesreturn.Split('&');
+                    foreach (string s in strings)
+                    {
+                        mylist.Add(int.Parse(s));
+                    }
+                }
+
+                return mylist;
+            }
+        }
+
+        public void SetDevicesToUser(int id, string user)
+        {
+            string query = "select deviceconnection from [User] where username=@username";
+            string devicesreturn = "";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@username", user);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    devicesreturn = reader.GetString(3);
+
+                }
+            }
+            string query2 = "insert into [User](deviceconnected) values(@devices) where username=@username";
+            string newdevicelist;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand(query2, conn);
+                if (devicesreturn != "")
+                    newdevicelist = devicesreturn + "&" + id;
+                else
+                    newdevicelist = id.ToString();
+                command.Parameters.AddWithValue("@devices", newdevicelist);
+                command.Parameters.AddWithValue("@username", user);
+                int affectedRows = command.ExecuteNonQuery();
+            }
+
+        }
+        public void DeleteDevicesToUser(int id, string user)
+        {
+            ObservableCollection<int> listOfDevices = GetDevice(user);
+            listOfDevices.Remove(id);
+            string newdevicelist;
+            string devicesreturn = "";
+            if (listOfDevices.Count != 0)
+            {
+                foreach (int device in listOfDevices)
+                {
+                    devicesreturn = devicesreturn + device + '&';
+                }
+                devicesreturn.Remove(devicesreturn.Length - 1, 1);
+                string query2 = "insert into [User](deviceconnected) values(@devices) where username=@username";
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand command = new SqlCommand(query2, conn);
+                    if (devicesreturn != "")
+                        newdevicelist = devicesreturn + "&" + id;
+                    else
+                        newdevicelist = id.ToString();
+                    command.Parameters.AddWithValue("@devices", newdevicelist);
+                    command.Parameters.AddWithValue("@username", user);
+                    int affectedRows = command.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
