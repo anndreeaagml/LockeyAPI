@@ -9,31 +9,35 @@ namespace LockeyAPI.Controllers
 {
     public class ValuesController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        DatabaseController userAccess = new DatabaseController();
+        // GET: api/User
+        public Sensor Get(int deviceid)
         {
-            return new string[] { "value1", "value2" };
+            return userAccess.GetSensorByID(deviceid);
         }
 
-        // GET api/values/5
-        public string Get(int id)
+        [HttpGet]
+        [Route("api/Values/{username}")]
+        public IEnumerable<int> GetDevicesConnectedToUser(string username)
         {
-            return "value";
+            return userAccess.GetDevice(username);
         }
 
-        // POST api/values
-        public void Post([FromBody] string value)
+
+        // POST: api/User
+        public void Post([FromBody] Sensor sensor)
         {
+            userAccess.createReading(sensor);
         }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE api/values/5
+        [HttpDelete]
+        [Route("api/Values/{id}")]
         public void Delete(int id)
         {
+            userAccess.deleteDevice(id);
         }
+        
+
     }
 }

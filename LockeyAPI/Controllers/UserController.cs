@@ -36,5 +36,21 @@ namespace LockeyAPI.Controllers
         {
             userAccess.deleteUser(username);
         }
+
+        [HttpPut]
+        [Route("api/User/{usename}/{id}")]
+        public void PutDevicesToUser(int id, string username)
+        {
+            userAccess.SetDevicesToUser(id, username);
+        }
+
+        [HttpPut]
+        [Route("api/User/delete/{usename}/{id}")]
+        public void DeleteDevicesToUser(string username, int id)
+        {
+            userAccess.DeleteDevicesToUser(id, username);
+
+        }
+
     }
 }
