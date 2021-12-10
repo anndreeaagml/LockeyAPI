@@ -52,8 +52,7 @@ namespace LockeyAPI
                     returnUser = new User()
                     {
                         Username = reader.GetString(1),
-                        Password = reader.GetString(2),
-                        DeviceConnected = reader.GetString(3)
+                        Password = reader.GetString(2)
                     };
                 }
             }
@@ -152,7 +151,7 @@ namespace LockeyAPI
         //Sensor
         public ObservableCollection<Sensor> GetAllSensors()
         {
-            string query = "select * from value";
+            string query = "select * from [Values]";
             ObservableCollection<Sensor> mylist = new ObservableCollection<Sensor>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -164,7 +163,7 @@ namespace LockeyAPI
                     Sensor theSensor = new Sensor
                     {
                         ID = reader.GetInt32(0),
-                        Value = reader.GetFloat(2),
+                        IsLocked = reader.GetBoolean(1),
                     };
 
                     mylist.Add(theSensor);
@@ -176,7 +175,7 @@ namespace LockeyAPI
 
         public Sensor GetSensorByID(int id)
         {
-            string query = "select * from Value where DeviceID=@id";
+            string query = "select * from [Values] where DeviceID=@id";
             Sensor returnSensor = new Sensor();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -187,7 +186,7 @@ namespace LockeyAPI
                 while (reader.Read())
                 {
                     returnSensor.ID = reader.GetInt32(0);
-                    returnSensor.Value = reader.GetFloat(1);
+                    returnSensor.IsLocked = reader.GetBoolean(1);
                 }
 
                 return returnSensor;
@@ -196,21 +195,21 @@ namespace LockeyAPI
 
         public void createReading(Sensor sensor)
         {
-            string query = "insert into Value(DeviceID, Value) values(@id, @value)";
+            string query = "insert into [Values](DeviceID, IsLocked) values(@id, @value)";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@id", sensor.ID);
-                command.Parameters.AddWithValue("@value", sensor.Value);
+                command.Parameters.AddWithValue("@value", sensor.IsLocked);
                 int affectedRows = command.ExecuteNonQuery();
             }
         }
 
         public void deleteDevice(int id)
         {
-            string query = "delete from Value where DeviceID=@id"; //query here...
+            string query = "delete from [Values] where DeviceID=@id"; //query here...
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();

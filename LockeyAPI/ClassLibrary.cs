@@ -58,18 +58,18 @@ namespace LockeyAPI
         {
 
         }
-        public Sensor(int id, float value)
+        public Sensor(int id, bool islocked)
         {
             ID = id;
-            value = Value;
+            islocked = IsLocked;
         }
 
         public int ID { get; set; }
-        public float Value { get; set; }
+        public bool IsLocked { get; set; }
 
         public override string ToString()
         {
-            return $"ID:{ID}, Value: {Value}";
+            return $"ID:{ID}, Is Locked: {IsLocked}";
         }
 
     }
