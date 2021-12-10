@@ -7,7 +7,6 @@ using System.Web.Http;
 
 namespace LockeyAPI.Controllers
 {
-    [Route("api/[controller]")]
     public class SensorController : ApiController
     {
 

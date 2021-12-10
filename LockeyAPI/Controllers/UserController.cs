@@ -8,7 +8,6 @@ using System.Web.Http.Cors;
 namespace LockeyAPI.Controllers
 {
     [EnableCors(origins: "https://lockeyapi.azurewebsites.net/", headers: "*", methods: "*")]
-    [Route("api/[controller]")]
     public class UserController : ApiController
     {
         DatabaseController userAccess = new DatabaseController();

@@ -251,7 +251,6 @@ D:\Git\LockeyAPI\LockeyAPI\bin\System.Web.WebPages.Deployment.xml
 D:\Git\LockeyAPI\LockeyAPI\bin\System.Web.WebPages.Razor.xml
 D:\Git\LockeyAPI\LockeyAPI\bin\Antlr3.Runtime.pdb
 D:\Git\LockeyAPI\LockeyAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Git\LockeyAPI\LockeyAPI\obj\Debug\LockeyAPI.csproj.AssemblyReference.cache
 D:\Git\LockeyAPI\LockeyAPI\obj\Debug\LockeyAPI.csproj.CoreCompileInputs.cache
 D:\Git\LockeyAPI\LockeyAPI\obj\Debug\LockeyAPI.csproj.CopyComplete
 D:\Git\LockeyAPI\LockeyAPI\obj\Debug\LockeyAPI.dll

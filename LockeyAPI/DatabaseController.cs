@@ -10,6 +10,7 @@ namespace LockeyAPI
     public class DatabaseController
     {
         public const string connectionString =
+            //@"Data Source=(localdb)\ProjectsV13;Initial Catalog = Projects; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             @"Server=tcp:lockeyserver.database.windows.net,1433;Initial Catalog=lockeydata;Persist Security Info=False;User ID=lockey;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         //User
