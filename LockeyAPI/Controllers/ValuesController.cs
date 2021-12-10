@@ -20,7 +20,7 @@ namespace LockeyAPI.Controllers
         [Route("api/Values/{username}")]
         public IEnumerable<int> GetDevicesConnectedToUser(string username)
         {
-            return userAccess.GetDevice(username);
+            return userAccess.GetDevice(1);
         }
 
 

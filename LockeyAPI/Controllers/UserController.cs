@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace LockeyAPI.Controllers
 {
+    [EnableCors(origins: "https://lockeyapi.azurewebsites.net/", headers: "*", methods: "*")]
+    [Route("api/[controller]")]
     public class UserController : ApiController
     {
         DatabaseController userAccess = new DatabaseController();
@@ -16,41 +19,42 @@ namespace LockeyAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/User/{username}")]
-        public User Get(string username)
+        public User Get(int id)
         {
-            return userAccess.GetUser(username);
+            return userAccess.GetUser(id);
         }
-
 
         // POST: api/User
+        [HttpPost]
         public void Post([FromBody] User user)
         {
-            userAccess.createUser(user);
+            userAccess.CreateUser(user);
         }
-
 
         [HttpDelete]
-        [Route("api/User/{username}")]
-        public void Delete(string username)
+        public void Delete(int id)
         {
-            userAccess.deleteUser(username);
+            userAccess.DeleteUser(id);
         }
 
         [HttpPut]
-        [Route("api/User/{usename}/{id}")]
-        public void PutDevicesToUser(int id, string username)
+        [Route("AddDevice/{userid}")]
+        public void AddDevice(int deciveId, int userid)
         {
-            userAccess.SetDevicesToUser(id, username);
+            userAccess.SetDevicesToUser(deciveId, userid);
         }
 
         [HttpPut]
-        [Route("api/User/delete/{usename}/{id}")]
-        public void DeleteDevicesToUser(string username, int id)
+        [Route("RemoveDevice/{userid}")]
+        public void RemoveDevice(int deciveId, int userid)
         {
-            userAccess.DeleteDevicesToUser(id, username);
-
+            userAccess.DeleteDevicesToUser(deciveId, userid);
         }
 
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] User value)
+        //{
+        //    userAccess.SetDevicesToUser(id, value);
+        //}
     }
 }
