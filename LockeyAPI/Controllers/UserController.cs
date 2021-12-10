@@ -38,14 +38,14 @@ namespace LockeyAPI.Controllers
 
         [HttpPut]
         [Route("AddDevice/{userid}")]
-        public void AddDevice(int deciveId, int userid)
+        public void AddDevice(int userid, [FromBody] int deciveId)
         {
             userAccess.SetDevicesToUser(deciveId, userid);
         }
 
         [HttpPut]
         [Route("RemoveDevice/{userid}")]
-        public void RemoveDevice(int deciveId, int userid)
+        public void RemoveDevice(int userid, [FromBody] int deciveId)
         {
             userAccess.DeleteDevicesToUser(deciveId, userid);
         }
