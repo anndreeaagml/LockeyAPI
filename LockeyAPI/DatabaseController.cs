@@ -11,7 +11,7 @@ namespace LockeyAPI
     {
         public const string connectionString =
             //@"Data Source=(localdb)\ProjectsV13;Initial Catalog = Projects; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            @"Server=tcp:lockeyserver.database.windows.net,1433;Initial Catalog=lockeydata;Persist Security Info=False;User ID=lockey;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            @"Server=tcp:lockeyserver.database.windows.net,1433;Initial Catalog=lockeydata;Persist Security Info=False;User ID=lockey;Password=Password1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         //User
         public List<User> GetAllUsers()
@@ -38,7 +38,7 @@ namespace LockeyAPI
 
         public User GetUser(int userid)
         {
-            string query = "select * from [User] where id=@userid";
+            string query = "select * from [User] where Id=@userid";
             User returnUser = new User();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
