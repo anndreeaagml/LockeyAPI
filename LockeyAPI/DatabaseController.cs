@@ -25,12 +25,23 @@ namespace LockeyAPI
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    User theUser = new User()
+                    string x;
+                    try
+                    {
+                        x=reader.GetString(3);
+                    }
+                    catch(System.Data.SqlTypes.SqlNullValueException)
+                    {
+                        x = "";
+                    }
+                    
+
+                     User theUser = new User()
                     {
                         ID = reader.GetInt32(0),
                         Username = reader.GetString(1),
                         Password = reader.GetString(2),
-                        DeviceConnected = reader.GetString(3)
+                        DeviceConnected = x
                     };
                     mylist.Add(theUser);
                 }
@@ -51,12 +62,23 @@ namespace LockeyAPI
 
                 while (reader.Read())
                 {
+                    string x;
+                    try
+                    {
+                        x = reader.GetString(3);
+                    }
+                    catch (System.Data.SqlTypes.SqlNullValueException)
+                    {
+                        x = "";
+                    }
+
                     returnUser = new User()
                     {
+
                         ID = reader.GetInt32(0),
                         Username = reader.GetString(1),
                         Password = reader.GetString(2),
-                        DeviceConnected = reader.GetString(3)
+                        DeviceConnected = x
                     };
                 }
             }
@@ -102,8 +124,14 @@ namespace LockeyAPI
 
                 while (reader.Read())
                 {
-                    devicesreturn = reader.GetString(3);
-
+                    
+                    try
+                    {
+                        devicesreturn = reader.GetString(3);
+                    }
+                    catch (System.Data.SqlTypes.SqlNullValueException)
+                    {}
+                    
                 }
             }
             string query2 = "insert into [User](deviceconnected) values(@devices) where id=@userid";
