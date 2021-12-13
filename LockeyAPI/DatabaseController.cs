@@ -27,8 +27,10 @@ namespace LockeyAPI
                 {
                     User theUser = new User()
                     {
+                        ID = reader.GetInt32(0),
                         Username = reader.GetString(1),
-                        Password = reader.GetString(2)
+                        Password = reader.GetString(2),
+                        DeviceConnected = reader.GetString(3)
                     };
                     mylist.Add(theUser);
                 }
@@ -51,8 +53,10 @@ namespace LockeyAPI
                 {
                     returnUser = new User()
                     {
+                        ID = reader.GetInt32(0),
                         Username = reader.GetString(1),
-                        Password = reader.GetString(2)
+                        Password = reader.GetString(2),
+                        DeviceConnected = reader.GetString(3)
                     };
                 }
             }
@@ -164,6 +168,7 @@ namespace LockeyAPI
                     {
                         ID = reader.GetInt32(0),
                         IsLocked = reader.GetBoolean(1),
+                        Time = reader.GetDateTime(2)
                     };
 
                     mylist.Add(theSensor);
@@ -187,6 +192,7 @@ namespace LockeyAPI
                 {
                     returnSensor.ID = reader.GetInt32(0);
                     returnSensor.IsLocked = reader.GetBoolean(1);
+                    returnSensor.Time = reader.GetDateTime(2);
                 }
 
                 return returnSensor;
@@ -217,6 +223,7 @@ namespace LockeyAPI
                 command.Parameters.AddWithValue("@id", id);
                 int affectedRows = command.ExecuteNonQuery();
             }
+
         }
 
         public ObservableCollection<int> GetDevice(int userid)
