@@ -58,13 +58,13 @@ namespace LockeyAPI
         {
 
         }
-        public Sensor(int id, bool islocked)
+        public Sensor(string id, bool islocked)
         {
             ID = id;
             islocked = IsLocked;
         }
 
-        public int ID { get; set; }
+        public string ID { get; set; }
         public bool IsLocked { get; set; }
 
         public override string ToString()

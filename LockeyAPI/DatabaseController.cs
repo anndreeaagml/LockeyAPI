@@ -162,7 +162,7 @@ namespace LockeyAPI
                 {
                     Sensor theSensor = new Sensor
                     {
-                        ID = reader.GetInt32(0),
+                        ID = reader.GetString(0),
                         IsLocked = reader.GetBoolean(1),
                     };
 
@@ -185,7 +185,7 @@ namespace LockeyAPI
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    returnSensor.ID = reader.GetInt32(0);
+                    returnSensor.ID = reader.GetString(0);
                     returnSensor.IsLocked = reader.GetBoolean(1);
                 }
 
