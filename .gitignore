@@ -3,6 +3,8 @@
 *.pdb
 *.dll
 *.suo
+*.csproj.user
 LockeyAPI/bin/*
 LockeyAPI/obj/*
 LockeyAPI/fonts/*
+packages/*
