@@ -1,0 +1,8 @@
+.vs
+.github
+*.pdb
+*.dll
+*.suo
+LockeyAPI/bin/*
+LockeyAPI/obj/*
+LockeyAPI/fonts/*
