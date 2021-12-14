@@ -11,24 +11,28 @@ namespace LockeyAPI
         public string Username { get; set; }
         public string Password { get; set; }
         public string DeviceConnected { get; set; }
+        public int ID { get; set; }
 
-        public User(string username, string password, int deviceconnected)
+        public User(string username, string password, string deviceconnected)
         {
             Username = username;
             Password = password;
+            DeviceConnected = deviceconnected;
 
+        }
+        public User(string username, string password, string deviceconnected, int id)
+        {
+            Username = username;
+            Password = password;
+            DeviceConnected=deviceconnected;    
+            ID=id;
         }
 
         public User()
         {
         }
 
-        public void SetUser(string user, string pass, string deviceconnected)
-        {
-            Username = user;
-            Password = pass;
-            DeviceConnected = deviceconnected;
-        }
+      
 
         public override string ToString()
         {
@@ -66,7 +70,7 @@ namespace LockeyAPI
 
         public string ID { get; set; }
         public bool IsLocked { get; set; }
-
+        public DateTime Time { get; set; }
         public override string ToString()
         {
             return $"ID:{ID}, Is Locked: {IsLocked}";

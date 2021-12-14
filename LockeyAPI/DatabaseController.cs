@@ -25,10 +25,23 @@ namespace LockeyAPI
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    User theUser = new User()
+                    string x;
+                    try
                     {
+                        x=reader.GetString(3);
+                    }
+                    catch(System.Data.SqlTypes.SqlNullValueException)
+                    {
+                        x = "";
+                    }
+                    
+
+                     User theUser = new User()
+                    {
+                        ID = reader.GetInt32(0),
                         Username = reader.GetString(1),
-                        Password = reader.GetString(2)
+                        Password = reader.GetString(2),
+                        DeviceConnected = x
                     };
                     mylist.Add(theUser);
                 }
@@ -49,10 +62,23 @@ namespace LockeyAPI
 
                 while (reader.Read())
                 {
+                    string x;
+                    try
+                    {
+                        x = reader.GetString(3);
+                    }
+                    catch (System.Data.SqlTypes.SqlNullValueException)
+                    {
+                        x = "";
+                    }
+
                     returnUser = new User()
                     {
+
+                        ID = reader.GetInt32(0),
                         Username = reader.GetString(1),
-                        Password = reader.GetString(2)
+                        Password = reader.GetString(2),
+                        DeviceConnected = x
                     };
                 }
             }
@@ -98,8 +124,14 @@ namespace LockeyAPI
 
                 while (reader.Read())
                 {
-                    devicesreturn = reader.GetString(3);
-
+                    
+                    try
+                    {
+                        devicesreturn = reader.GetString(3);
+                    }
+                    catch (System.Data.SqlTypes.SqlNullValueException)
+                    {}
+                    
                 }
             }
             string query2 = "insert into [User](deviceconnected) values(@devices) where id=@userid";
@@ -164,6 +196,7 @@ namespace LockeyAPI
                     {
                         ID = reader.GetString(0),
                         IsLocked = reader.GetBoolean(1),
+                        Time = reader.GetDateTime(2)
                     };
 
                     mylist.Add(theSensor);
@@ -187,6 +220,7 @@ namespace LockeyAPI
                 {
                     returnSensor.ID = reader.GetString(0);
                     returnSensor.IsLocked = reader.GetBoolean(1);
+                    returnSensor.Time = reader.GetDateTime(2);
                 }
 
                 return returnSensor;
@@ -217,6 +251,7 @@ namespace LockeyAPI
                 command.Parameters.AddWithValue("@id", id);
                 int affectedRows = command.ExecuteNonQuery();
             }
+
         }
 
         public ObservableCollection<int> GetDevice(int userid)
