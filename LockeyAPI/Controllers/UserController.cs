@@ -24,7 +24,7 @@ namespace LockeyAPI.Controllers
         }
 
         [HttpGet]
-        [Route("byUsername/{username}")]
+        [Route("User/byUsername/{username}")]
         public User GetByUsername(string username)
         {
             return userAccess.GetUserByUsername(username);
@@ -44,20 +44,20 @@ namespace LockeyAPI.Controllers
         }
 
         [HttpPut]
-        [Route("AddDevice/{userid}")]
+        [Route("User/AddDevice/{userid}")]
         public void AddDevice(int userid, [FromBody] int deviceId)
         {
             userAccess.SetDevicesToUser(deviceId, userid);
         }
 
         [HttpPut]
-        [Route("RemoveDevice/{userid}")]
+        [Route("User/RemoveDevice/{userid}")]
         public void RemoveDevice(int userid, [FromBody] int deviceId)
         {
             userAccess.DeleteDevicesToUser(deviceId, userid);
         }
         [HttpPut]
-        [Route("GetUserDevices/{userid}")]
+        [Route("User/GetUserDevices/{userid}")]
         public IEnumerable<string> GetDevices( int id)
         {
             return userAccess.GetDevice(id);
