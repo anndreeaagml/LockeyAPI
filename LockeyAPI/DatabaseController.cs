@@ -137,7 +137,7 @@ namespace LockeyAPI
 
         public void DeleteUser(int userid)
         {
-            string query = "delete from [User] where id=@userid";
+            string query = "delete from [User] where Id=@userid";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -149,7 +149,7 @@ namespace LockeyAPI
 
         public void SetDevicesToUser(int deciveId, int userid)
         {
-            string query = "select deviceconnection from [User] where id=@userid";
+            string query = "select deviceconnection from [User] where Id=@userid";
             string devicesreturn = "";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -170,7 +170,7 @@ namespace LockeyAPI
                     
                 }
             }
-            string query2 = "insert into [User](deviceconnected) values(@devices) where id=@userid";
+            string query2 = "insert into [User](deviceconnected) values(@devices) where Id=@userid";
             string newdevicelist;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -199,7 +199,7 @@ namespace LockeyAPI
                     devicesreturn = devicesreturn + device + '&';
                 }
                 devicesreturn.Remove(devicesreturn.Length - 1, 1);
-                string query2 = "insert into [User](deviceconnected) values(@devices) where id=@userid";
+                string query2 = "insert into [User](deviceconnected) values(@devices) where Id=@userid";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
@@ -292,7 +292,7 @@ namespace LockeyAPI
 
         public ObservableCollection<int> GetDevice(int userid)
         {
-            string query = "select deviceconnection from [User] where id=@userid";
+            string query = "select deviceconnection from [User] where Id=@userid";
             ObservableCollection<int> mylist = new ObservableCollection<int>();
             string devicesreturn;
             using (SqlConnection conn = new SqlConnection(connectionString))
