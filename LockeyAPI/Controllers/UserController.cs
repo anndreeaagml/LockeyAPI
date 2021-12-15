@@ -23,6 +23,13 @@ namespace LockeyAPI.Controllers
             return userAccess.GetUser(id);
         }
 
+        [HttpGet]
+        [Route("byUsername/{username}")]
+        public User GetByUsername(string username)
+        {
+            return userAccess.GetUserByUsername(username);
+        }
+
         // POST: api/User
         [HttpPost]
         public void Post([FromBody] User user)

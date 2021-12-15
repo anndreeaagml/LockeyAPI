@@ -85,6 +85,42 @@ namespace LockeyAPI
             return returnUser;
         }
 
+        public User GetUserByUsername(string username)
+        {
+            string query = "select * from [User] where username=@userid";
+            User returnUser = new User();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@userid", username);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string x;
+                    try
+                    {
+                        x = reader.GetString(3);
+                    }
+                    catch (System.Data.SqlTypes.SqlNullValueException)
+                    {
+                        x = "";
+                    }
+
+                    returnUser = new User()
+                    {
+
+                        ID = reader.GetInt32(0),
+                        Username = reader.GetString(1),
+                        Password = reader.GetString(2),
+                        DeviceConnected = x
+                    };
+                }
+            }
+            return returnUser;
+        }
+
         public void CreateUser(User user)
         {
             string query = "insert into [User](username, password) values(@username, @password)";
