@@ -188,13 +188,13 @@ namespace LockeyAPI
         }
         public void DeleteDevicesToUser(int deciveId, int userid)
         {
-            ObservableCollection<int> listOfDevices = GetDevice(userid);
-            listOfDevices.Remove(deciveId);
+            List<string> listOfDevices = GetDevice(userid);
+            listOfDevices.Remove(deciveId.ToString());
             string newdevicelist;
             string devicesreturn = "";
             if (listOfDevices.Count != 0)
             {
-                foreach (int device in listOfDevices)
+                foreach (string device in listOfDevices)
                 {
                     devicesreturn = devicesreturn + device + '&';
                 }
@@ -290,10 +290,10 @@ namespace LockeyAPI
 
         }
 
-        public ObservableCollection<int> GetDevice(int userid)
+        public List<string> GetDevice(int userid)
         {
             string query = "select deviceconnection from [User] where Id=@userid";
-            ObservableCollection<int> mylist = new ObservableCollection<int>();
+            List<string> mylist = new List<string>();
             string devicesreturn;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -309,7 +309,7 @@ namespace LockeyAPI
                     strings = devicesreturn.Split('&');
                     foreach (string s in strings)
                     {
-                        mylist.Add(int.Parse(s));
+                        mylist.Add(s);
                     }
                 }
 

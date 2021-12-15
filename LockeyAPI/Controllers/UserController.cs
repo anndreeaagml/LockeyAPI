@@ -45,18 +45,23 @@ namespace LockeyAPI.Controllers
 
         [HttpPut]
         [Route("AddDevice/{userid}")]
-        public void AddDevice(int userid, [FromBody] int deciveId)
+        public void AddDevice(int userid, [FromBody] int deviceId)
         {
-            userAccess.SetDevicesToUser(deciveId, userid);
+            userAccess.SetDevicesToUser(deviceId, userid);
         }
 
         [HttpPut]
         [Route("RemoveDevice/{userid}")]
-        public void RemoveDevice(int userid, [FromBody] int deciveId)
+        public void RemoveDevice(int userid, [FromBody] int deviceId)
         {
-            userAccess.DeleteDevicesToUser(deciveId, userid);
+            userAccess.DeleteDevicesToUser(deviceId, userid);
         }
-
+        [HttpPut]
+        [Route("GetUserDevices/{userid}")]
+        public IEnumerable<string> GetDevices( int id)
+        {
+            return userAccess.GetDevice(id);
+        }
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody] User value)
         //{
