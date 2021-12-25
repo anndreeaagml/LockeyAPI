@@ -202,8 +202,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <None Include="Properties\PublishProfiles\LockeyAPI - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\lockeyweb - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\LockeySuperServerDeluxe - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -280,7 +279,7 @@
           <IISUrl>http://localhost:49496/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>https://lockeyapi.azurewebsites.net</CustomServerUrl>
+          <CustomServerUrl>https://lockeysuperserverdeluxe.azurewebsites.net</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
