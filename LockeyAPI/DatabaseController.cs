@@ -230,9 +230,9 @@ namespace LockeyAPI
                 {
                     Sensor theSensor = new Sensor
                     {
-                        ID = reader.GetString(0),
-                        IsLocked = reader.GetBoolean(1),
-                        Time = reader.GetDateTime(2)
+                        ID = reader.GetString(1),
+                        IsLocked = reader.GetBoolean(2),
+                        Time = reader.GetDateTime(3)
                     };
 
                     mylist.Add(theSensor);
@@ -254,9 +254,9 @@ namespace LockeyAPI
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    returnSensor.ID = reader.GetString(0);
-                    returnSensor.IsLocked = reader.GetBoolean(1);
-                    returnSensor.Time = reader.GetDateTime(2);
+                    returnSensor.ID = reader.GetString(1);
+                    returnSensor.IsLocked = reader.GetBoolean(2);
+                    returnSensor.Time = reader.GetDateTime(3);
                 }
 
                 return returnSensor;
