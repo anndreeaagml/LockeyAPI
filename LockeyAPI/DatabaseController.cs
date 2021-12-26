@@ -196,11 +196,17 @@ namespace LockeyAPI
             string devicesreturn = "";
             if (listOfDevices.Count != 0)
             {
-                foreach (string device in listOfDevices)
+                if (listOfDevices.Count == 1)
+                { devicesreturn = listOfDevices[0]; }
+                else
                 {
-                    devicesreturn = devicesreturn + device + '&';
+                    foreach (string device in listOfDevices)
+                    {
+                        if(device!="")
+                        devicesreturn = devicesreturn + device + '&';
+                    }
+                    devicesreturn = devicesreturn.Remove(devicesreturn.Length - 1, 1);
                 }
-                devicesreturn.Remove(devicesreturn.Length - 1, 1);
                 string query2 = "UPDATE[User] SET deviceconnected = @devices Where Id = @userid";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -209,7 +215,7 @@ namespace LockeyAPI
                     SqlCommand command = new SqlCommand(query2, conn);
                     
                     command.Parameters.AddWithValue("@devices", devicesreturn);
-                    command.Parameters.AddWithValue("@id", userid);
+                    command.Parameters.AddWithValue("@userid", userid);
                     int affectedRows = command.ExecuteNonQuery();
                 }
             }
@@ -303,7 +309,7 @@ namespace LockeyAPI
 
                 while (reader.Read())
                 {
-                    devicesreturn = reader.GetString(3);
+                    devicesreturn = reader.GetString(0);
                     string[] strings;
                     strings = devicesreturn.Split('&');
                     foreach (string s in strings)

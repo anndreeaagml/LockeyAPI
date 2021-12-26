@@ -1,4 +1,6 @@
-﻿    using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -45,17 +47,19 @@ namespace LockeyAPI.Controllers
 
         [HttpPut]
         [Route("User/AddDevice/{userid}")]
-        public void AddDevice([FromBody] string mac,int userid)
+        public void AddDevice([FromBody] JToken mac,int userid)
         {
-            if (!ModelState.IsValid)
-                userAccess.SetDevicesToUser(mac, userid);
+            //string mac2 = JsonConvert.DeserializeObject();
+            string mac2 = mac.First.Last().ToString();
+            userAccess.SetDevicesToUser(mac2, userid);
         }
 
         [HttpPut]
         [Route("User/RemoveDevice/{userid}")]
-        public void RemoveDevice(int userid, [FromBody] string mac)
+        public void RemoveDevice(int userid, [FromBody] JToken mac)
         {
-            userAccess.DeleteDevicesToUser(mac, userid);
+            string mac2 = mac.First.Last().ToString();
+            userAccess.DeleteDevicesToUser(mac2, userid);
         }
         [HttpPut]
         [Route("User/GetUserDevices/{userid}")]
