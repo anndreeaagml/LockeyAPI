@@ -147,9 +147,9 @@ namespace LockeyAPI
             }
         }
 
-        public void SetDevicesToUser(int deciveId, int userid)
+        public void SetDevicesToUser(string mac, int userid)
         {
-            string query = "select deviceconnection from [User] where Id=@userid";
+            string query = "select deviceconnected from [User] where Id=@userid";
             string devicesreturn = "";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -163,34 +163,36 @@ namespace LockeyAPI
                     
                     try
                     {
-                        devicesreturn = reader.GetString(3);
+                       // reader.GetInt32(0);
+                       // reader.GetString(1);
+                       // reader.GetString(2);
+                        devicesreturn = reader.GetString(0);
                     }
                     catch (System.Data.SqlTypes.SqlNullValueException)
                     {}
                     
                 }
             }
-            string query2 = "insert into [User](deviceconnected) values(@devices) where Id=@userid";
+            string query2 = "UPDATE[User] SET deviceconnected = @devices Where Id = @userid";
             string newdevicelist;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 SqlCommand command = new SqlCommand(query2, conn);
                 if (devicesreturn != "")
-                    newdevicelist = devicesreturn + "&" + deciveId;
+                    newdevicelist = devicesreturn + "&" + mac;
                 else
-                    newdevicelist = deciveId.ToString();
+                    newdevicelist = mac;
                 command.Parameters.AddWithValue("@devices", newdevicelist);
                 command.Parameters.AddWithValue("@userid", userid);
                 int affectedRows = command.ExecuteNonQuery();
             }
 
         }
-        public void DeleteDevicesToUser(int deciveId, int userid)
+        public void DeleteDevicesToUser(string mac, int userid)
         {
             List<string> listOfDevices = GetDevice(userid);
-            listOfDevices.Remove(deciveId.ToString());
-            string newdevicelist;
+            listOfDevices.Remove(mac);
             string devicesreturn = "";
             if (listOfDevices.Count != 0)
             {
@@ -199,17 +201,14 @@ namespace LockeyAPI
                     devicesreturn = devicesreturn + device + '&';
                 }
                 devicesreturn.Remove(devicesreturn.Length - 1, 1);
-                string query2 = "insert into [User](deviceconnected) values(@devices) where Id=@userid";
+                string query2 = "UPDATE[User] SET deviceconnected = @devices Where Id = @userid";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
                     SqlCommand command = new SqlCommand(query2, conn);
-                    if (devicesreturn != "")
-                        newdevicelist = devicesreturn + "&" + deciveId;
-                    else
-                        newdevicelist = deciveId.ToString();
-                    command.Parameters.AddWithValue("@devices", newdevicelist);
+                    
+                    command.Parameters.AddWithValue("@devices", devicesreturn);
                     command.Parameters.AddWithValue("@id", userid);
                     int affectedRows = command.ExecuteNonQuery();
                 }
@@ -292,7 +291,7 @@ namespace LockeyAPI
 
         public List<string> GetDevice(int userid)
         {
-            string query = "select deviceconnection from [User] where Id=@userid";
+            string query = "select deviceconnected from [User] where Id=@userid";
             List<string> mylist = new List<string>();
             string devicesreturn;
             using (SqlConnection conn = new SqlConnection(connectionString))
