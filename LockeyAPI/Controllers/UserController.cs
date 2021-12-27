@@ -46,20 +46,17 @@ namespace LockeyAPI.Controllers
         }
 
         [HttpPut]
-        [Route("User/AddDevice/{userid}")]
-        public void AddDevice([FromBody] JToken mac,int userid)
+        [Route("User/AddDevice")]
+        public void AddDevice([FromBody] User mac)
         {
-            //string mac2 = JsonConvert.DeserializeObject();
-            string mac2 = mac.First.Last().ToString();
-            userAccess.SetDevicesToUser(mac2, userid);
+            userAccess.SetDevicesToUser(mac.DeviceConnected, mac.ID);
         }
 
         [HttpPut]
-        [Route("User/RemoveDevice/{userid}")]
-        public void RemoveDevice(int userid, [FromBody] JToken mac)
+        [Route("User/RemoveDevice")]
+        public void RemoveDevice([FromBody] User mac)
         {
-            string mac2 = mac.First.Last().ToString();
-            userAccess.DeleteDevicesToUser(mac2, userid);
+            userAccess.DeleteDevicesToUser(mac.DeviceConnected, mac.ID);
         }
         [HttpPut]
         [Route("User/GetUserDevices/{userid}")]
