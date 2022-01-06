@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -22,7 +23,7 @@ namespace LockeyAPI.Controllers
 
         // GET api/<DeviceController>/5
         [HttpGet]
-        public Sensor Get(int deviceid)
+        public ObservableCollection<Sensor> Get(string deviceid)
         {
             return userAccess.GetSensorByID(deviceid);
         }

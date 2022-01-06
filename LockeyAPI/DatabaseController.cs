@@ -247,10 +247,10 @@ namespace LockeyAPI
             }
         }
 
-        public Sensor GetSensorByID(int id)
+        public ObservableCollection<Sensor> GetSensorByID(string id)
         {
             string query = "select * from [Values] where DeviceID=@id";
-            Sensor returnSensor = new Sensor();
+            ObservableCollection<Sensor> returnSensor = new ObservableCollection<Sensor>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -259,9 +259,13 @@ namespace LockeyAPI
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    returnSensor.ID = reader.GetString(1);
-                    returnSensor.IsLocked = reader.GetBoolean(2);
-                    returnSensor.Time = reader.GetDateTime(3);
+                    Sensor theSensor = new Sensor
+                    {
+                        ID = reader.GetString(1),
+                        IsLocked = reader.GetBoolean(2),
+                        Time = reader.GetDateTime(3)
+                    };
+                    returnSensor.Add(theSensor);
                 }
 
                 return returnSensor;
